@@ -1,0 +1,32 @@
+<html>
+  <head>
+    <script src="socket.io.js"></script>
+    <script>
+      const socket = io('http://localhost:5010?token=');
+      socket.on('connect', function() {
+        console.log('Connected');
+        socket.emit('events', { sendTo: '5f3627f4c493c8e16ea000db', data: 'test1' });
+        socket.emit('identity', { sendTo: '5f3627f4c493c8e16ea000db', data: 'test1' }, response =>
+          console.log('Identity:', response),
+        );
+      });
+      socket.on('identity', function(data) {
+        console.log('identity', data);
+      });
+      socket.on('events', (data, ack) => {
+        console.log('event', data);
+        if(ack){
+          ack('...');
+        }
+      });
+      socket.on('exception', function(data) {
+        console.log('event', data);
+      });
+      socket.on('disconnect', function() {
+        console.log('Disconnected');
+      });
+    </script>
+  </head>
+
+  <body></body>
+</html>

@@ -1,0 +1,26 @@
+<html>
+  <head>
+    <script src="socket.io.js"></script>
+    <script>
+      const socket = io('http://localhost:5010?token=');
+      socket.on('connect', function() {
+        console.log('Connected');
+        socket.emit('events', { sendTo: '6099f53fb5569c144da7207a', data: 'test1111' });
+      });
+      socket.on('events', (data, ack) => {
+        console.log('event', data);
+        if(ack){
+          ack('...');
+        }
+      });
+      socket.on('exception', function(data) {
+        console.log('event', data);
+      });
+      socket.on('disconnect', function() {
+        console.log('Disconnected');
+      });
+    </script>
+  </head>
+
+  <body></body>
+</html>
